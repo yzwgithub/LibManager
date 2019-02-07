@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login"/>
-    <andios.org.view.CircleImageView
+    <andios.org.custom_view.CircleImageView
         android:id="@+id/u_logo"
         android:layout_width="100dp"
         android:layout_height="100dp"

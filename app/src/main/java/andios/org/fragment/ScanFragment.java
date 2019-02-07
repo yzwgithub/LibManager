@@ -1,9 +1,13 @@
 package andios.org.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.transition.AutoTransition;
 import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
@@ -16,38 +20,52 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import andios.org.R;
 import andios.org.adapter.ScanRecyclerViewAdapter;
+import andios.org.appplection.MyApplication;
+import andios.org.bean.LibInformationBean;
 import andios.org.bean.ScanListBean;
-import andios.org.interfice.OnItemClickListener;
+import andios.org.listener_interface.OnItemClickListener;
+import andios.org.tool.Constance;
 
 public class ScanFragment extends Fragment {
 
     private EditText textSearch;
     private LinearLayout layoutSearch;
     private Toolbar toolbar;
+
     boolean isExpand=false;
+
     private TransitionSet set;
     private ViewGroup rootView;
     private InputMethodManager imm;
     private RecyclerView recyclerView;
     private ScanRecyclerViewAdapter adapter;
     private LinearLayoutManager manager;
-    private List<ScanListBean>list;
+
+    private List<ScanListBean> listBeans;
+    private List<LibInformationBean>libInformationBeans;
+    private Gson gson;
+    private ScanListBean scanListBean;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,19 +75,33 @@ public class ScanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.scan_fragment, container, false);
-        setListData();//加载RecyclerView的数据
-        initView(view);//初始化控件
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        initView(view);//初始化控件
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        OnClick();//添加监听事件
+        getLibInformationBeanJson();
+    }
+
     private void initView(View view){
+        gson=new Gson();
+
+        listBeans =new ArrayList<>();
+
         textSearch=view.findViewById(R.id.tv_search);
         layoutSearch=view.findViewById(R.id.ll_search);
         toolbar=view.findViewById(R.id.toolbar);
         rootView = (ViewGroup) ((ViewGroup) getActivity().findViewById(android.R.id.content)).getChildAt(0);
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        adapter=new ScanRecyclerViewAdapter(getContext(),list);
+        adapter=new ScanRecyclerViewAdapter(getContext(), listBeans);
         recyclerView=view.findViewById(R.id.recycler_scan);
         manager=new LinearLayoutManager(getActivity());
 
@@ -96,9 +128,6 @@ public class ScanFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
-
-        OnClick();//添加监听事件
-
     }
 
     private void OnClick(){
@@ -165,7 +194,7 @@ public class ScanFragment extends Fragment {
         beginDelayedTransition(layoutSearch);
     }
 
-    void beginDelayedTransition(ViewGroup view) {
+    private void beginDelayedTransition(ViewGroup view) {
         set = new AutoTransition();
         set.setDuration(300);
         TransitionManager.beginDelayedTransition(view, set);
@@ -190,12 +219,45 @@ public class ScanFragment extends Fragment {
             imm.hideSoftInputFromWindow(textSearch.getWindowToken(), 0);
         }
     }
-    private void setListData(){
-        list=new ArrayList<>();
-        for (int i=0;i<10;i++){
-            ScanListBean bean=new ScanListBean();
-            bean.setContext("第"+i+"张是“椿”与可爱的的“鲲”在雨中翩翩起舞的情景！");
-            list.add(bean);
-        }
+
+    private void getLibInformationBeanJson(){
+        StringRequest request=new StringRequest(Request.Method.GET, Constance.url+"/servlet/LibInformationServlet", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                libInformationBeans=gson.fromJson(s,new TypeToken<List<LibInformationBean>>(){}.getType());
+                for (int i=0;i<libInformationBeans.size();i++){
+                    scanListBean=new ScanListBean();
+                    scanListBean.setContext(libInformationBeans.get(i).getLib_information());
+                    requestBitmaps(libInformationBeans.get(i).getPicture_url(),i);
+                    listBeans.add(scanListBean);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+
+        request.setTag("getLibInformationBeanJson");
+        MyApplication.getHttpQueues().add(request);
+    }
+
+    private void requestBitmaps(String url, final int i){
+        ImageRequest request=new ImageRequest(Constance.url+url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap bitmap) {
+                listBeans.get(i).setBitmap(bitmap);
+                adapter.notifyDataSetChanged();
+            }
+        }, 1000, 200, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        request.setTag("requestBitmaps");
+        MyApplication.getHttpQueues().add(request);
     }
 }

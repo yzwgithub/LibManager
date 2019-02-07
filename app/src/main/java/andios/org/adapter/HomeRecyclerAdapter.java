@@ -1,7 +1,6 @@
 package andios.org.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import java.util.List;
 
 import andios.org.R;
 import andios.org.bean.HomeListBean;
-import andios.org.interfice.OnItemClickListener;
+import andios.org.listener_interface.OnItemClickListener;
 
 /**
  * 文件描述：
@@ -42,7 +41,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         myViewHolder.content.setText(list.get(i).getContent());
         myViewHolder.title.setText(list.get(i).getTitle());
-        myViewHolder.imageview.setImageResource(R.drawable.xioa_chun);
+//        myViewHolder.imageview.setImageResource(R.drawable.xioa_chun);
+        myViewHolder.imageview.setImageBitmap(list.get(i).getBitmaps());
     }
 
     @Override

@@ -46,4 +46,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 break;
         }
     }
+
+    private void register(){
+
+    }
 }

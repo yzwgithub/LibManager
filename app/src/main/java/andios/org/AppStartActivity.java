@@ -10,6 +10,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
 import java.util.Map;
+
+import andios.org.activity.Login;
 import andios.org.activity.MainActivity;
 import andios.org.tool.SharedHelper;
 
@@ -45,17 +47,15 @@ public class AppStartActivity extends AppCompatActivity {
             public void onAnimationStart(Animation arg0) {
 
             }
-
         });
     }
     protected void redirectTo() {
         sharedHelper=new SharedHelper(AppStartActivity.this);
         Map<String,String> data=sharedHelper.read();
         Intent intent;
-        intent= new Intent(this, MainActivity.class);//测试
-//        if (!data.get("username").equals("")||!data.get("password").equals("")){
-//            intent= new Intent(this, MainActivity.class);
-//        }else intent = new Intent(this, Login.class);
+        if (!data.get("username").equals("")||!data.get("password").equals("")){
+            intent= new Intent(this, MainActivity.class);
+        }else intent = new Intent(this, Login.class);
         startActivity(intent);
         finish();
     }

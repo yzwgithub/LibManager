@@ -7,29 +7,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF">
-            <andios.org.view.Banner
+            <andios.org.custom_view.Banner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 app:layout_scrollFlags="scroll|enterAlways">
-            </andios.org.view.Banner>
+            </andios.org.custom_view.Banner>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
-                <andios.org.view.RoundView
+                <andios.org.custom_view.RoundView
                     android:id="@+id/view_one"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
-                <andios.org.view.RoundView
+                <andios.org.custom_view.RoundView
                     android:id="@+id/view_two"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
-                <andios.org.view.RoundView
+                <andios.org.custom_view.RoundView
                     android:id="@+id/view_three"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

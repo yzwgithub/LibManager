@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import andios.org.R;
-import andios.org.view.CircleImageView;
+import andios.org.custom_view.CircleImageView;
 
 /**
  * 文件描述：

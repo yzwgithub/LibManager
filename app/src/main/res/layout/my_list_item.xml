@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <andios.org.view.CircleImageView
+    <andios.org.custom_view.CircleImageView
         android:id="@+id/item_logo"
         android:layout_width="50dp"
         android:layout_height="50dp"

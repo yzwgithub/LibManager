@@ -41,7 +41,9 @@ import java.util.List;
 import java.util.Map;
 
 import andios.org.R;
-import andios.org.view.CircleImageView;
+import andios.org.tool.PictureUtil;
+import andios.org.tool.ProgressDialogUtil;
+import andios.org.custom_view.CircleImageView;
 import andios.org.tool.Constance;
 import andios.org.appplection.MyApplication;
 import andios.org.tool.SharedHelper;
@@ -63,6 +65,7 @@ public class Login extends AppCompatActivity implements
     private List<String> list;
     private ArrayAdapter adapter;
     private CircleImageView circleImageView;
+    private PictureUtil pictureUtil;
 
     private static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
@@ -91,6 +94,9 @@ public class Login extends AppCompatActivity implements
      */
     private void init(){
         initData();
+
+        pictureUtil=new PictureUtil();
+
         user_name=findViewById(R.id.user_name);
         password=findViewById(R.id.password);
         login=findViewById(R.id.login);
@@ -158,20 +164,25 @@ public class Login extends AppCompatActivity implements
     }
 
     private void login(String url,final String userId,final String userName, final String password){
+        ProgressDialogUtil.showProgressDialog(Login.this,"登录中请稍后...");
         StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
             @Override
             public void onResponse(String s) {
                 if (s.equals("200")){
+                    ProgressDialogUtil.dismiss();
                     Intent intent=new Intent(Login.this,MainActivity.class);
                     startActivity(intent);
                     Login.this.finish();
                 }else if(s.equals("404")) {
+                    ProgressDialogUtil.dismiss();
                     Toast.makeText(Login.this,"用户名或密码输入错误",Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                ProgressDialogUtil.dismiss();
                 Toast.makeText(Login.this,"网络连接超时，请检查您的网络设置！",Toast.LENGTH_SHORT).show();
             }
         }){
@@ -179,7 +190,7 @@ public class Login extends AppCompatActivity implements
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map=new HashMap();
                 map.put("user_id",userId);
-                map.put("account",userName);
+                map.put("user_name",userName);
                 map.put("password",password);
                 return map;
             }
@@ -200,7 +211,7 @@ public class Login extends AppCompatActivity implements
             checkBox2.setChecked(true);
         }
         if (!data.get("picture_path").equals("")){
-            circleImageView.setImageBitmap(getLoacalBitmap(data.get("picture_path")));
+            circleImageView.setImageBitmap(pictureUtil.getLocalBitmap(data.get("picture_path")));
         }
     }
 
@@ -352,7 +363,7 @@ public class Login extends AppCompatActivity implements
             // 从剪切图片返回的数据
             if (data != null) {
                 Bitmap bitmap = data.getParcelableExtra("data");
-                saveImageToGallery(Login.this,bitmap);
+                pictureUtil.saveImageToGallery(Login.this,bitmap);
                 circleImageView.setImageBitmap(bitmap);
                 sharedHelper.save(picture_path);
             }
@@ -364,53 +375,5 @@ public class Login extends AppCompatActivity implements
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    /**
-     * 加载本地图片
-     * @param url
-     * @return
-     */
-    public Bitmap getLoacalBitmap(String url) {
-        try {
-            FileInputStream fis = new FileInputStream(url);
-            return BitmapFactory.decodeStream(fis);  ///把流转化为Bitmap图片
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void saveImageToGallery(Context context, Bitmap bmp) {
-        // 首先保存图片
-        File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
-        if (!appDir.exists()) {
-            appDir.mkdir();
-        }
-        String fileName = System.currentTimeMillis() + ".jpg";
-        File file = new File(appDir, fileName);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            picture_path=file.getAbsolutePath();//获取图片绝对路径
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // 其次把文件插入到系统图库
-        try {
-            MediaStore.Images.Media.insertImage(context.getContentResolver(),
-                    file.getAbsolutePath(), fileName, null);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        // 最后通知图库更新
-        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getAbsolutePath())));
     }
 }

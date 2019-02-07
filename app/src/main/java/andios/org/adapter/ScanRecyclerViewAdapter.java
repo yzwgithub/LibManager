@@ -13,7 +13,7 @@ import java.util.List;
 
 import andios.org.R;
 import andios.org.bean.ScanListBean;
-import andios.org.interfice.OnItemClickListener;
+import andios.org.listener_interface.OnItemClickListener;
 
 /**
  * 文件描述：
@@ -40,7 +40,7 @@ public class ScanRecyclerViewAdapter extends RecyclerView.Adapter<ScanRecyclerVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         myViewHolder.content.setText(list.get(i).getContext());
-        myViewHolder.icon.setImageResource(R.drawable.dancing);
+        myViewHolder.icon.setImageBitmap(list.get(i).getBitmap());
 
     }
 

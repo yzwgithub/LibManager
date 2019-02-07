@@ -14,7 +14,7 @@ import android.widget.Toast;
 import andios.org.R;
 import andios.org.activity.Login;
 import andios.org.adapter.MineItemAdapter;
-import andios.org.view.CircleImageView;
+import andios.org.custom_view.CircleImageView;
 
 public class MyFragment extends Fragment {
     private ListView listView;
@@ -61,4 +61,6 @@ public class MyFragment extends Fragment {
         listView.setAdapter(mineItemAdapter);
         listener();
     }
+
+
 }
