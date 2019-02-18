@@ -11,7 +11,7 @@ import android.view.animation.Animation;
 
 import java.util.Map;
 
-import andios.org.activity.Login;
+import andios.org.activity.LoginActivity;
 import andios.org.activity.MainActivity;
 import andios.org.tool.SharedHelper;
 
@@ -27,22 +27,23 @@ public class AppStartActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);super.onCreate(savedInstanceState);
-        final View view = View.inflate(this, R.layout.app_start, null);
+        final View view = View.inflate(this, R.layout.activity_app_start, null);
         setContentView(view);
         //渐变展示启动屏
-        AlphaAnimation aa = new AlphaAnimation(0.3f,1.0f);
+        AlphaAnimation aa = new AlphaAnimation(0.3f, 1.0f);
         aa.setDuration(5000);
         view.startAnimation(aa);
-        aa.setAnimationListener(new Animation.AnimationListener()
-        {
+        aa.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {
                 redirectTo();
             }
+
             @Override
             public void onAnimationRepeat(Animation arg0) {
 
             }
+
             @Override
             public void onAnimationStart(Animation arg0) {
 
@@ -55,7 +56,7 @@ public class AppStartActivity extends AppCompatActivity {
         Intent intent;
         if (!data.get("username").equals("")||!data.get("password").equals("")){
             intent= new Intent(this, MainActivity.class);
-        }else intent = new Intent(this, Login.class);
+        }else intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

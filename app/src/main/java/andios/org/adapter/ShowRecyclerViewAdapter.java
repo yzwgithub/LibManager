@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import andios.org.R;
-import andios.org.bean.ScanListBean;
+import andios.org.bean.ShowListBean;
 import andios.org.listener_interface.OnItemClickListener;
 
 /**
@@ -21,19 +21,19 @@ import andios.org.listener_interface.OnItemClickListener;
  * 创建时间：2019/1/15
  */
 
-public class ScanRecyclerViewAdapter extends RecyclerView.Adapter<ScanRecyclerViewAdapter.MyViewHolder> {
+public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerViewAdapter.MyViewHolder> {
 
-    private List<ScanListBean>list;
+    private List<ShowListBean>list;
     private OnItemClickListener listener=null;
     private LayoutInflater inflater;
-    public ScanRecyclerViewAdapter(Context context, List<ScanListBean> list){
+    public ShowRecyclerViewAdapter(Context context, List<ShowListBean> list){
         inflater=LayoutInflater.from(context);
         this.list=list;
     }
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view=inflater.inflate(R.layout.scan_recycler_item,viewGroup,false);
+        View view=inflater.inflate(R.layout.show_recycler_item,viewGroup,false);
         return new MyViewHolder(view);
     }
 

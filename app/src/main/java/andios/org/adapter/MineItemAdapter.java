@@ -20,7 +20,7 @@ import andios.org.custom_view.CircleImageView;
 
 public class MineItemAdapter extends BaseAdapter{
     private LayoutInflater inflater;
-    private final String []text={"椿","赤松","鹿神"};
+    private final String []text={"我的收藏","修改个人信息","退出登录"};
     private final int []img_resource={R.drawable.chun_logo,R.drawable.chisong_logo,R.drawable.lushen_logo};
 
     public MineItemAdapter(Context context) {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,16 +29,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import andios.org.R;
+import andios.org.tool.IntentTools;
 import andios.org.tool.PictureUtil;
 import andios.org.tool.ProgressDialogUtil;
 import andios.org.custom_view.CircleImageView;
@@ -51,13 +46,12 @@ import andios.org.tool.SharedHelper;
 import static andios.org.tool.Constance.picture_path;
 import static andios.org.tool.Constance.user_id;
 
-public class Login extends AppCompatActivity implements
+public class LoginActivity extends AppCompatActivity implements
         View.OnClickListener ,CompoundButton.OnCheckedChangeListener,AdapterView.OnItemSelectedListener {
     private EditText user_name;
     private EditText password;
     private Button login;
     private TextView forget_password;
-    private TextView user_register;
     private CheckBox checkBox1,checkBox2;
     private SharedHelper sharedHelper;
     private Context context;
@@ -83,9 +77,8 @@ public class Login extends AppCompatActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getSupportActionBar().hide();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
         init();
     }
 
@@ -102,8 +95,7 @@ public class Login extends AppCompatActivity implements
         login=findViewById(R.id.login);
         checkBox1=findViewById(R.id.remember);
         checkBox2=findViewById(R.id.self_login);
-        forget_password=findViewById(R.id.forget_password);
-        user_register=findViewById(R.id.user_register);
+        forget_password=findViewById(R.id.login_forget_password);
         spinner = findViewById(R.id.user_id);
         circleImageView=findViewById(R.id.u_logo);
 
@@ -115,9 +107,9 @@ public class Login extends AppCompatActivity implements
         sharedHelper=new SharedHelper(context);
 
         login.setOnClickListener(this);
+        forget_password.setOnClickListener(this);
         checkBox1.setOnCheckedChangeListener(this);
         checkBox2.setOnCheckedChangeListener(this);
-        user_register.setOnClickListener(this);
         circleImageView.setOnClickListener(this);
     }
 
@@ -150,12 +142,8 @@ public class Login extends AppCompatActivity implements
                 }
                 login(url,u_id,u_username,u_password);
                 break;
-            case R.id.forget_password:
-                break;
-            case R.id.user_register:
-                Intent intent_user_register=new Intent(Login.this,Register.class);
-                startActivity(intent_user_register);
-                Login.this.finish();
+            case R.id.login_forget_password:
+                IntentTools.getInstance().intent(LoginActivity.this,ForgetActivity.class,null);
                 break;
             case R.id.u_logo:
                 createDialog();
@@ -164,26 +152,26 @@ public class Login extends AppCompatActivity implements
     }
 
     private void login(String url,final String userId,final String userName, final String password){
-        ProgressDialogUtil.showProgressDialog(Login.this,"登录中请稍后...");
+        ProgressDialogUtil.showProgressDialog(LoginActivity.this,"登录中请稍后...");
         StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String s) {
                 if (s.equals("200")){
                     ProgressDialogUtil.dismiss();
-                    Intent intent=new Intent(Login.this,MainActivity.class);
+                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
-                    Login.this.finish();
+                    LoginActivity.this.finish();
                 }else if(s.equals("404")) {
                     ProgressDialogUtil.dismiss();
-                    Toast.makeText(Login.this,"用户名或密码输入错误",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"用户名或密码输入错误",Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 ProgressDialogUtil.dismiss();
-                Toast.makeText(Login.this,"网络连接超时，请检查您的网络设置！",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,"网络连接超时，请检查您的网络设置！",Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -195,7 +183,7 @@ public class Login extends AppCompatActivity implements
                 return map;
             }
         };
-        request.setTag("Login");
+        request.setTag("LoginActivity");
         MyApplication.getHttpQueues().add(request);
     }
 
@@ -363,7 +351,7 @@ public class Login extends AppCompatActivity implements
             // 从剪切图片返回的数据
             if (data != null) {
                 Bitmap bitmap = data.getParcelableExtra("data");
-                pictureUtil.saveImageToGallery(Login.this,bitmap);
+                pictureUtil.saveImageToGallery(LoginActivity.this,bitmap);
                 circleImageView.setImageBitmap(bitmap);
                 sharedHelper.save(picture_path);
             }

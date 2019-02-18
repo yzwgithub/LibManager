@@ -27,7 +27,7 @@ public class ProgressDialogUtil {
             mAlertDialog = new AlertDialog.Builder(context, R.style.CustomProgressDialog).create();
         }
 
-        View loadView = LayoutInflater.from(context).inflate(R.layout.custom_progress_dialog_view, null);
+        View loadView = LayoutInflater.from(context).inflate(R.layout.custom_progress_dialog, null);
         mAlertDialog.setView(loadView, 0, 0, 0, 0);
         mAlertDialog.setCanceledOnTouchOutside(false);
 
@@ -46,7 +46,7 @@ public class ProgressDialogUtil {
             mAlertDialog = new AlertDialog.Builder(context, R.style.CustomProgressDialog).create();
         }
 
-        View loadView = LayoutInflater.from(context).inflate(R.layout.custom_progress_dialog_view, null);
+        View loadView = LayoutInflater.from(context).inflate(R.layout.custom_progress_dialog, null);
         mAlertDialog.setView(loadView, 0, 0, 0, 0);
         mAlertDialog.setCanceledOnTouchOutside(false);
 

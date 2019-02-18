@@ -2,7 +2,6 @@ package andios.org.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -39,14 +37,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import andios.org.R;
-import andios.org.adapter.ScanRecyclerViewAdapter;
+import andios.org.activity.Show_Details;
+import andios.org.adapter.ShowRecyclerViewAdapter;
 import andios.org.appplection.MyApplication;
 import andios.org.bean.LibInformationBean;
-import andios.org.bean.ScanListBean;
+import andios.org.bean.ShowListBean;
 import andios.org.listener_interface.OnItemClickListener;
 import andios.org.tool.Constance;
+import andios.org.tool.IntentTools;
 
-public class ScanFragment extends Fragment {
+public class ShowFragment extends Fragment {
 
     private EditText textSearch;
     private LinearLayout layoutSearch;
@@ -58,13 +58,13 @@ public class ScanFragment extends Fragment {
     private ViewGroup rootView;
     private InputMethodManager imm;
     private RecyclerView recyclerView;
-    private ScanRecyclerViewAdapter adapter;
+    private ShowRecyclerViewAdapter adapter;
     private LinearLayoutManager manager;
 
-    private List<ScanListBean> listBeans;
+    private List<ShowListBean> listBeans;
     private List<LibInformationBean>libInformationBeans;
     private Gson gson;
-    private ScanListBean scanListBean;
+    private ShowListBean showListBean;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class ScanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.scan_fragment, container, false);
+        View view = inflater.inflate(R.layout.show_fragment, container, false);
         return view;
     }
 
@@ -101,7 +101,7 @@ public class ScanFragment extends Fragment {
         rootView = (ViewGroup) ((ViewGroup) getActivity().findViewById(android.R.id.content)).getChildAt(0);
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        adapter=new ScanRecyclerViewAdapter(getContext(), listBeans);
+        adapter=new ShowRecyclerViewAdapter(getContext(), listBeans);
         recyclerView=view.findViewById(R.id.recycler_scan);
         manager=new LinearLayoutManager(getActivity());
 
@@ -165,7 +165,7 @@ public class ScanFragment extends Fragment {
         adapter.setOnItemClickClickListener(new OnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
-                Toast.makeText(getActivity(), "点击了第"+position+"个item", Toast.LENGTH_SHORT).show();
+                IntentTools.getInstance().intent(getContext(),Show_Details.class,null);
             }
         });
     }
@@ -221,22 +221,26 @@ public class ScanFragment extends Fragment {
     }
 
     private void getLibInformationBeanJson(){
-        StringRequest request=new StringRequest(Request.Method.GET, Constance.url+"/servlet/LibInformationServlet", new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET, Constance.url+"servlet/LibInformationServlet", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 libInformationBeans=gson.fromJson(s,new TypeToken<List<LibInformationBean>>(){}.getType());
                 for (int i=0;i<libInformationBeans.size();i++){
-                    scanListBean=new ScanListBean();
-                    scanListBean.setContext(libInformationBeans.get(i).getLib_information());
+                    showListBean =new ShowListBean();
+                    showListBean.setContext(libInformationBeans.get(i).getLib_information());
                     requestBitmaps(libInformationBeans.get(i).getPicture_url(),i);
-                    listBeans.add(scanListBean);
+                    listBeans.add(showListBean);
                     adapter.notifyDataSetChanged();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                for (int i=0;i<3;i++){
+                    showListBean =new ShowListBean();
+                    showListBean.setContext("");
+                    listBeans.add(showListBean);
+                }
             }
         });
 

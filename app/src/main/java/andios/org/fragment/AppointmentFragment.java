@@ -1,7 +1,6 @@
 package andios.org.fragment;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,11 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,17 +24,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import andios.org.R;
+import andios.org.activity.AppointmentActivity;
+import andios.org.activity.Home_Details;
+import andios.org.activity.MyAppointmentActivity;
+import andios.org.activity.SearchLibActivity;
 import andios.org.adapter.HomeRecyclerAdapter;
 import andios.org.appplection.MyApplication;
 import andios.org.bean.HomeListBean;
-import andios.org.bean.ScanBean;
+import andios.org.bean.ShowBean;
 import andios.org.listener_interface.OnItemClickListener;
 import andios.org.custom_view.Banner;
 import andios.org.custom_view.RoundView;
 import andios.org.tool.Constance;
+import andios.org.tool.IntentTools;
 
 
-public class HomeFragment extends Fragment {
+public class AppointmentFragment extends Fragment {
     private RecyclerView recyclerView;
     private HomeRecyclerAdapter adapter;
 
@@ -47,28 +49,25 @@ public class HomeFragment extends Fragment {
     private Banner banner;
 
     private Gson gson;
-    private List<ScanBean> scanBeanList;
+    private List<ShowBean> showBeanList;
     private HomeListBean homeListBean;
     private List<HomeListBean>listBeans;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i("onCreateView","onCreateView");
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.i("onViewCreated","onViewCreated");
         initView(view);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.i("onActivityCreated", "onActivityCreated");
         OnClick();//设置监听事件
         getScanBeanJson();
     }
@@ -86,14 +85,14 @@ public class HomeFragment extends Fragment {
 
         three=view.findViewById(R.id.view_three);
 
-        one.setText("凤");
-        one.setImage(R.drawable.feng_logo);
+        one.setText("预约");
+        one.setImage(R.drawable.one);
 
-        two.setText("句芒");
-        two.setImage(R.drawable.goumang_logo);
+        two.setText("我的预约");
+        two.setImage(R.drawable.two);
 
-        three.setText("祝融");
-        three.setImage(R.drawable.zhurong_logo);
+        three.setText("查询");
+        three.setImage(R.drawable.three);
 
         bannerList=new ArrayList();
         bannerList.add(R.drawable.haitang_one);
@@ -116,26 +115,28 @@ public class HomeFragment extends Fragment {
         one.setOnButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "第一个", Toast.LENGTH_SHORT).show();
+                IntentTools.getInstance().intent(getContext(),AppointmentActivity.class,null);
             }
         });
         two.setOnButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "第二个", Toast.LENGTH_SHORT).show();
+                IntentTools.getInstance().intent(getContext(),MyAppointmentActivity.class,null);
             }
         });
         three.setOnButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "第三个", Toast.LENGTH_SHORT).show();
+                IntentTools.getInstance().intent(getContext(),SearchLibActivity.class,null);
             }
         });
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
-                Toast.makeText(getActivity(), "点击了第"+position+"个图片", Toast.LENGTH_SHORT).show();
+                Bundle bundle=new Bundle();
+                bundle.putString("title",listBeans.get(position).getTitle());
+                IntentTools.getInstance().intent(getActivity(),Home_Details.class,bundle);
             }
         });
     }
@@ -144,12 +145,12 @@ public class HomeFragment extends Fragment {
         StringRequest request=new StringRequest(Request.Method.GET, Constance.url+"servlet/ScanServlet", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                scanBeanList =gson.fromJson(s,new TypeToken<List<ScanBean>>(){}.getType());
-                for (int i = 0; i< scanBeanList.size(); i++){
+                showBeanList =gson.fromJson(s,new TypeToken<List<ShowBean>>(){}.getType());
+                for (int i = 0; i< showBeanList.size(); i++){
                     homeListBean =new HomeListBean();
-                    homeListBean.setTitle(scanBeanList.get(i).getShow_title());
-                    homeListBean.setContent(scanBeanList.get(i).getShow_information());
-                    requestBitmaps(scanBeanList.get(i).getPicture_url(),i);
+                    homeListBean.setTitle(showBeanList.get(i).getShow_title());
+                    homeListBean.setContent(showBeanList.get(i).getShow_information());
+                    requestBitmaps(showBeanList.get(i).getPicture_url(),i);
                     listBeans.add(homeListBean);
                     adapter.notifyDataSetChanged();
                 }
@@ -157,7 +158,12 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                for (int i=0;i<3;i++){
+                    homeListBean =new HomeListBean();
+                    homeListBean.setTitle("");
+                    homeListBean.setContent("");
+                    listBeans.add(homeListBean);
+                }
             }
         });
         request.setTag("getScanBeanJson");
@@ -181,5 +187,4 @@ public class HomeFragment extends Fragment {
         request.setTag("getBitmaps");
         MyApplication.getHttpQueues().add(request);
     }
-
 }

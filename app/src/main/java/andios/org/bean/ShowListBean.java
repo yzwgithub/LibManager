@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
  * 创建时间：2019/1/15
  */
 
-public class ScanListBean {
+public class ShowListBean {
 
     private Bitmap bitmap;
     private String context;

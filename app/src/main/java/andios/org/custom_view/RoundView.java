@@ -24,7 +24,7 @@ public class RoundView extends LinearLayout {
 
     public RoundView(Context context,AttributeSet attrs) {
         super(context, attrs);
-        LayoutInflater.from(context).inflate(R.layout.round_view,this);
+        LayoutInflater.from(context).inflate(R.layout.custom_round_view,this);
         init();
 
     }

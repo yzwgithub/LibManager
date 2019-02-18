@@ -6,6 +6,4 @@
     android:layout_gravity="center"
     android:background="@drawable/indicator_bg"
     android:button="@null">
-
-
 </RadioButton>

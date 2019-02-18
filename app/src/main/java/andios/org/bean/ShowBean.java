@@ -6,17 +6,17 @@ package andios.org.bean;
  * 创建时间：2019/2/7
  */
 
-public class ScanBean {
+public class ShowBean {
     private int show_id;
     private String picture_url;
     private String show_title;
     private String show_information;
 
-    public ScanBean() {
+    public ShowBean() {
 
     }
 
-    public ScanBean(String picture_url, String show_title, String show_information) {
+    public ShowBean(String picture_url, String show_title, String show_information) {
         this.picture_url = picture_url;
         this.show_title = show_title;
         this.show_information = show_information;

@@ -78,26 +78,11 @@
         android:textColor="#FFF"
         android:text="@string/button_login"
         android:background="@drawable/button_style"/>
-
-    <LinearLayout
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/login_forget_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:id="@+id/forget_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="30dp"
-            android:text="@string/forget_password"/>
-        <TextView
-            android:id="@+id/user_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/register"
-            android:gravity="right"
-            android:layout_marginRight="30dp"
-            android:layout_weight="1"/>
-    </LinearLayout>
+        android:text="@string/forget_password"
+        android:gravity="center"/>
 </LinearLayout>

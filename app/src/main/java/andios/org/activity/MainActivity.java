@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -18,9 +17,9 @@ import java.util.List;
 
 import andios.org.R;
 import andios.org.adapter.FragmentAdapter;
-import andios.org.fragment.HomeFragment;
+import andios.org.fragment.AppointmentFragment;
 import andios.org.fragment.MyFragment;
-import andios.org.fragment.ScanFragment;
+import andios.org.fragment.ShowFragment;
 
 public class MainActivity extends AppCompatActivity implements
         BottomNavigationBar.OnTabSelectedListener,ViewPager.OnPageChangeListener {
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         InitViewPager();
@@ -47,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements
      */
     private void InitViewPager(){
         viewPager = findViewById(R.id.view_fragment);
-        list.add(new HomeFragment());
-        list.add(new ScanFragment());
+        list.add(new ShowFragment());
+        list.add(new AppointmentFragment());
         list.add(new MyFragment());
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), list);
         viewPager.addOnPageChangeListener(this);
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements
                 .setFirstSelectedPosition(lastSelectedPosition )
                 .initialise(); //initialise 一定要放在 所有设置的最后一项
     }
+
     Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg){
