@@ -37,10 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import andios.org.R;
-import andios.org.activity.Show_Details;
+import andios.org.activity.ShowDetailsActivity;
 import andios.org.adapter.ShowRecyclerViewAdapter;
 import andios.org.appplection.MyApplication;
-import andios.org.bean.LibInformationBean;
+import andios.org.bean.ShowInformationBean;
 import andios.org.bean.ShowListBean;
 import andios.org.listener_interface.OnItemClickListener;
 import andios.org.tool.Constance;
@@ -62,7 +62,7 @@ public class ShowFragment extends Fragment {
     private LinearLayoutManager manager;
 
     private List<ShowListBean> listBeans;
-    private List<LibInformationBean>libInformationBeans;
+    private List<ShowInformationBean> showInformationBeans;
     private Gson gson;
     private ShowListBean showListBean;
 
@@ -165,7 +165,9 @@ public class ShowFragment extends Fragment {
         adapter.setOnItemClickClickListener(new OnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
-                IntentTools.getInstance().intent(getContext(),Show_Details.class,null);
+                Bundle bundle=new Bundle();
+                bundle.putString("id",showInformationBeans.get(position).getShow_id()+"");
+                IntentTools.getInstance().intent(getContext(),ShowDetailsActivity.class,bundle);
             }
         });
     }
@@ -221,14 +223,14 @@ public class ShowFragment extends Fragment {
     }
 
     private void getLibInformationBeanJson(){
-        StringRequest request=new StringRequest(Request.Method.GET, Constance.url+"servlet/LibInformationServlet", new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET, Constance.url+"servlet/ShowInformationServlet", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                libInformationBeans=gson.fromJson(s,new TypeToken<List<LibInformationBean>>(){}.getType());
-                for (int i=0;i<libInformationBeans.size();i++){
+                showInformationBeans =gson.fromJson(s,new TypeToken<List<ShowInformationBean>>(){}.getType());
+                for (int i = 0; i< showInformationBeans.size(); i++){
                     showListBean =new ShowListBean();
-                    showListBean.setContext(libInformationBeans.get(i).getLib_information());
-                    requestBitmaps(libInformationBeans.get(i).getPicture_url(),i);
+                    showListBean.setContext(showInformationBeans.get(i).getShow_information());
+                    requestBitmaps(showInformationBeans.get(i).getPicture_url(),i);
                     listBeans.add(showListBean);
                     adapter.notifyDataSetChanged();
                 }

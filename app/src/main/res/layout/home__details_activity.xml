@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.Home_Details">
+    tools:context=".activity.LibDetailsActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/home_details_toolbar"

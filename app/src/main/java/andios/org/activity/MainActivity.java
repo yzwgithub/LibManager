@@ -17,8 +17,8 @@ import java.util.List;
 
 import andios.org.R;
 import andios.org.adapter.FragmentAdapter;
-import andios.org.fragment.AppointmentFragment;
-import andios.org.fragment.MyFragment;
+import andios.org.fragment.LibFragment;
+import andios.org.fragment.MineFragment;
 import andios.org.fragment.ShowFragment;
 
 public class MainActivity extends AppCompatActivity implements
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements
     private void InitViewPager(){
         viewPager = findViewById(R.id.view_fragment);
         list.add(new ShowFragment());
-        list.add(new AppointmentFragment());
-        list.add(new MyFragment());
+        list.add(new LibFragment());
+        list.add(new MineFragment());
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), list);
         viewPager.addOnPageChangeListener(this);
         viewPager.setAdapter(adapter);

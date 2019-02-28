@@ -9,9 +9,17 @@ import android.graphics.Bitmap;
  */
 
 public class ShowListBean {
-
+    private int id;
     private Bitmap bitmap;
     private String context;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Bitmap getBitmap() {
         return bitmap;

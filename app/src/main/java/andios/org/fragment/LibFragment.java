@@ -25,13 +25,13 @@ import java.util.List;
 
 import andios.org.R;
 import andios.org.activity.AppointmentActivity;
-import andios.org.activity.Home_Details;
+import andios.org.activity.LibDetailsActivity;
 import andios.org.activity.MyAppointmentActivity;
 import andios.org.activity.SearchLibActivity;
 import andios.org.adapter.HomeRecyclerAdapter;
 import andios.org.appplection.MyApplication;
 import andios.org.bean.HomeListBean;
-import andios.org.bean.ShowBean;
+import andios.org.bean.LibInformationBean;
 import andios.org.listener_interface.OnItemClickListener;
 import andios.org.custom_view.Banner;
 import andios.org.custom_view.RoundView;
@@ -39,7 +39,7 @@ import andios.org.tool.Constance;
 import andios.org.tool.IntentTools;
 
 
-public class AppointmentFragment extends Fragment {
+public class LibFragment extends Fragment {
     private RecyclerView recyclerView;
     private HomeRecyclerAdapter adapter;
 
@@ -49,14 +49,14 @@ public class AppointmentFragment extends Fragment {
     private Banner banner;
 
     private Gson gson;
-    private List<ShowBean> showBeanList;
+    private List<LibInformationBean> showInformationBeanList;
     private HomeListBean homeListBean;
     private List<HomeListBean>listBeans;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        View view = inflater.inflate(R.layout.appointment_fragment, container, false);
         return view;
     }
 
@@ -136,21 +136,21 @@ public class AppointmentFragment extends Fragment {
             public void onClick(View v, int position) {
                 Bundle bundle=new Bundle();
                 bundle.putString("title",listBeans.get(position).getTitle());
-                IntentTools.getInstance().intent(getActivity(),Home_Details.class,bundle);
+                IntentTools.getInstance().intent(getActivity(),LibDetailsActivity.class,bundle);
             }
         });
     }
 
     private void getScanBeanJson(){
-        StringRequest request=new StringRequest(Request.Method.GET, Constance.url+"servlet/ScanServlet", new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET, Constance.url+"servlet/LibInformationServlet", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                showBeanList =gson.fromJson(s,new TypeToken<List<ShowBean>>(){}.getType());
-                for (int i = 0; i< showBeanList.size(); i++){
+                showInformationBeanList =gson.fromJson(s,new TypeToken<List<LibInformationBean>>(){}.getType());
+                for (int i = 0; i< showInformationBeanList.size(); i++){
                     homeListBean =new HomeListBean();
-                    homeListBean.setTitle(showBeanList.get(i).getShow_title());
-                    homeListBean.setContent(showBeanList.get(i).getShow_information());
-                    requestBitmaps(showBeanList.get(i).getPicture_url(),i);
+                    homeListBean.setTitle(showInformationBeanList.get(i).getShow_title());
+                    homeListBean.setContent(showInformationBeanList.get(i).getShow_information());
+                    requestBitmaps(showInformationBeanList.get(i).getPicture_url(),i);
                     listBeans.add(homeListBean);
                     adapter.notifyDataSetChanged();
                 }

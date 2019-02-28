@@ -15,7 +15,7 @@
             android:title="@string/menu_save"
             app:showAsAction="always"/>
         <item
-            android:id="@+id/action_settings"
+            android:id="@+id/action_appointment"
             android:icon="@mipmap/appointment"
             android:orderInCategory="100"
             android:title="@string/agree"

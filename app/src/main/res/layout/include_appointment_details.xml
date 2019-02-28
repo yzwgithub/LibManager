@@ -17,17 +17,20 @@
                     android:textColor="#000000"/>
 
                 <ImageView
+                    android:id="@+id/include_appointment_img"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:src="@drawable/bg_mine"/>
 
                 <TextView
+                    android:id="@+id/include_appointment_sub_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="小标题"
                     android:textSize="25sp"
                     android:textColor="#000000"/>
                 <TextView
+                    android:id="@+id/include_appointment_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/text"/>

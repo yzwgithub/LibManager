@@ -20,7 +20,7 @@ import andios.org.custom_view.CircleImageView;
 import andios.org.tool.IntentTools;
 import andios.org.tool.SharedHelper;
 
-public class MyFragment extends Fragment {
+public class MineFragment extends Fragment {
     private ListView listView;
     private CircleImageView imageView;
     private SharedHelper sharedHelper;
