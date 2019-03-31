@@ -33,7 +33,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView=inflater.inflate(R.layout.home_recycler_item,null);
+        View itemView=inflater.inflate(R.layout.appointment_recycler_item,null);
         return new MyViewHolder(itemView);
     }
 
@@ -41,7 +41,6 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         myViewHolder.content.setText(list.get(i).getContent());
         myViewHolder.title.setText(list.get(i).getTitle());
-//        myViewHolder.imageview.setImageResource(R.drawable.xioa_chun);
         myViewHolder.imageview.setImageBitmap(list.get(i).getBitmaps());
     }
 

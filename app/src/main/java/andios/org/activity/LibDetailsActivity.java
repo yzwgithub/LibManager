@@ -44,7 +44,7 @@ public class LibDetailsActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home__details_activity);
+        setContentView(R.layout.appointment__details_activity);
         init();
         requestShowDetailsBean(1);
     }

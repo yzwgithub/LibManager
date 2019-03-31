@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/ab_search"
+        android:orderInCategory="60"
+        android:title="action_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/search_function_01"
+        android:icon="@mipmap/share"
+        android:orderInCategory="80"
+        android:title="按照时间查询"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/search_function_02"
+        android:icon="@mipmap/save"
+        android:orderInCategory="90"
+        android:title="按照实验室名称查询"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/search_function_03"
+        android:icon="@mipmap/appointment"
+        android:orderInCategory="100"
+        android:title="按照实验科目查询"
+        app:showAsAction="never"/>
+</menu>

@@ -20,7 +20,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_my_appointment" />
+    <include
+        android:id="@+id/subView_my_appointment"
+        layout="@layout/content_my_appointment" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

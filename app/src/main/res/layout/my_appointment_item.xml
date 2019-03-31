@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="20dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardElevation="12dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/scan_item_icon"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/dancing"/>
+
+        <TextView
+            android:id="@+id/my_appointment_item_tx"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="实验室名称"/>
+        <TextView
+            android:id="@+id/my_appointment_item_tx_02"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="预约时间"/>
+        <TextView
+            android:id="@+id/my_appointment_item_tx_03"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="学院"/>
+        <TextView
+            android:id="@+id/my_appointment_item_tx_04"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="班级"/>
+        <TextView
+            android:id="@+id/my_appointment_item_tx_05"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="班级人数"/>
+        <TextView
+            android:id="@+id/my_appointment_item_tx_06"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="实验名称"/>
+        <TextView
+            android:id="@+id/my_appointment_item_tx_07"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="实验所属科目"/>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
