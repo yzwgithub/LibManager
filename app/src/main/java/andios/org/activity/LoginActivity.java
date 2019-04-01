@@ -27,6 +27,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import andios.org.R;
+import andios.org.bean.UserBean;
 import andios.org.tool.IntentTools;
 import andios.org.tool.PictureUtil;
 import andios.org.tool.ProgressDialogUtil;
@@ -60,6 +63,8 @@ public class LoginActivity extends AppCompatActivity implements
     private ArrayAdapter adapter;
     private CircleImageView circleImageView;
     private PictureUtil pictureUtil;
+    private List<UserBean> userBeanList;
+    private Gson gson;
 
     private static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
@@ -87,7 +92,6 @@ public class LoginActivity extends AppCompatActivity implements
      */
     private void init(){
         initData();
-
         pictureUtil=new PictureUtil();
 
         user_name=findViewById(R.id.user_name);
@@ -139,6 +143,7 @@ public class LoginActivity extends AppCompatActivity implements
                 }
                 if (checkBox2.isChecked()){
                     sharedHelper.save(u_id,u_username,u_password,picture_path);
+                    setU_index(u_username,u_password);
                 }
                 login(url,u_id,u_username,u_password);
                 break;
@@ -213,6 +218,7 @@ public class LoginActivity extends AppCompatActivity implements
                     checkBox2.setChecked(true);
                     user_id=String.valueOf(spinner.getSelectedItemPosition());
                     sharedHelper.save(user_id,u_username, p_password,picture_path);
+                    setU_index(u_username,p_password);
                 }else {
                     checkBox2.setChecked(false);
                     sharedHelper.save(null,null, null,null);
@@ -363,5 +369,26 @@ public class LoginActivity extends AppCompatActivity implements
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void setU_index(String user_name,String password){
+        StringRequest request=new StringRequest(Request.Method.GET, Constance.url+
+                "servlet/UserServlet?"+"u_name="+user_name+"&u_password="+password,
+                new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                gson=new Gson();
+                userBeanList=gson.fromJson(s,new TypeToken<List<UserBean>>(){}.getType());
+                sharedHelper.save(userBeanList.get(0).getU_index());
+                Constance.user_index=sharedHelper.read_u_index();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        request.setTag("getU_index");
+        MyApplication.getHttpQueues().add(request);
     }
 }

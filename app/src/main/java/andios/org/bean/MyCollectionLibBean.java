@@ -6,15 +6,15 @@ package andios.org.bean;
  * 创建时间：2019/3/29
  */
 
-public class MyCollectionBean {
+public class MyCollectionLibBean {
     private int collection_index;
     private int u_index;
     private int lib_id;
 
-    public MyCollectionBean() {
+    public MyCollectionLibBean() {
     }
 
-    public MyCollectionBean(int collection_index, int u_index, int lib_id) {
+    public MyCollectionLibBean(int collection_index, int u_index, int lib_id) {
         this.collection_index = collection_index;
         this.u_index = u_index;
         this.lib_id = lib_id;

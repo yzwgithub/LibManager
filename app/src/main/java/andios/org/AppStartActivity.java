@@ -13,6 +13,7 @@ import java.util.Map;
 
 import andios.org.activity.LoginActivity;
 import andios.org.activity.MainActivity;
+import andios.org.tool.Constance;
 import andios.org.tool.SharedHelper;
 
 /**
@@ -53,6 +54,7 @@ public class AppStartActivity extends AppCompatActivity {
     protected void redirectTo() {
         sharedHelper=new SharedHelper(AppStartActivity.this);
         Map<String,String> data=sharedHelper.read();
+        Constance.user_index=sharedHelper.read_u_index();
         Intent intent;
         if (!data.get("username").equals("")||!data.get("password").equals("")){
             intent= new Intent(this, MainActivity.class);

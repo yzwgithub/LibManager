@@ -16,6 +16,9 @@ public class AppointmentBean {
     private String experiment_name;
     private String experiment_subject;
 
+    public AppointmentBean() {
+    }
+
     public AppointmentBean(String lib_name, String date, String time,
                            String college_name, String class_name,
                            String number_of_class, String experiment_name,

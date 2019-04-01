@@ -17,7 +17,6 @@ android:layout_height="match_parent">
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 </android.support.design.widget.AppBarLayout>
-
 <include
     android:id="@+id/subView_my_store"
     layout="@layout/include_my_store" />

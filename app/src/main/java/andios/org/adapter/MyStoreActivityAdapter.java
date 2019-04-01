@@ -6,9 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import andios.org.R;
+import andios.org.bean.ShowListBean;
 
 /**
  * 文件描述：
@@ -18,8 +22,10 @@ import andios.org.R;
 
 public class MyStoreActivityAdapter extends RecyclerView.Adapter<MyStoreActivityAdapter.MyViewHolder> {
     private LayoutInflater inflater;
-    public MyStoreActivityAdapter(Context context){
+    private List<ShowListBean> list;
+    public MyStoreActivityAdapter(Context context,List<ShowListBean>list){
         inflater=LayoutInflater.from(context);
+        this.list=list;
     }
 
     @NonNull
@@ -32,19 +38,22 @@ public class MyStoreActivityAdapter extends RecyclerView.Adapter<MyStoreActivity
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-
+        myViewHolder.content.setText(list.get(i).getContext());
+        myViewHolder.icon.setImageBitmap(list.get(i).getBitmap());
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return list.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView textView;
+        private TextView content;
+        private ImageView icon;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            content=itemView.findViewById(R.id.my_store_content);
+            icon=itemView.findViewById(R.id.my_store_icon);
         }
     }
 }

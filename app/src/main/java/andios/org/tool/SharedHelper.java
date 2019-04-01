@@ -31,7 +31,7 @@ public class SharedHelper {
 
     //定义一个读取SP文件的方法
     public Map<String, String> read() {
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         SharedPreferences sp = mContext.getSharedPreferences("mysp", Context.MODE_PRIVATE);
         data.put("user_id", sp.getString("user_id", ""));
         data.put("username", sp.getString("username", ""));
@@ -39,10 +39,21 @@ public class SharedHelper {
         data.put("picture_path", sp.getString("picture_path", ""));
         return data;
     }
+    public int read_u_index(){
+        SharedPreferences sp = mContext.getSharedPreferences("mysp", Context.MODE_PRIVATE);
+        return sp.getInt("u_index", 1);
+    }
     public void save(String p_path){
         SharedPreferences sp = mContext.getSharedPreferences("mysp", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("picture_path", p_path);
+        editor.commit();
+    }
+
+    public void save(int u_index){
+        SharedPreferences sp = mContext.getSharedPreferences("mysp", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("u_index", u_index);
         editor.commit();
     }
 }
