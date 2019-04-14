@@ -6,11 +6,11 @@
     tools:context=".activity.MainActivity"
     android:orientation="vertical">
     <TextView
-        android:gravity="center"
-        android:textSize="30sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login"/>
+    android:gravity="center"
+    android:textSize="30sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/login"/>
     <andios.org.custom_view.CircleImageView
         android:id="@+id/u_logo"
         android:layout_width="100dp"

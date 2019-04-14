@@ -16,6 +16,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -226,7 +230,7 @@ public class ShowFragment extends Fragment {
         StringRequest request=new StringRequest(Request.Method.GET, Constance.url+"servlet/ShowInformationServlet", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                showInformationBeans =gson.fromJson(s,new TypeToken<List<ShowInformationBean>>(){}.getType());
+                showInformationBeans = gson.fromJson(s,new TypeToken<List<ShowInformationBean>>(){}.getType());
                 for (int i = 0; i< showInformationBeans.size(); i++){
                     showListBean =new ShowListBean();
                     showListBean.setContext(showInformationBeans.get(i).getShow_information());
@@ -238,11 +242,7 @@ public class ShowFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                for (int i=0;i<3;i++){
-                    showListBean =new ShowListBean();
-                    showListBean.setContext("");
-                    listBeans.add(showListBean);
-                }
+
             }
         });
 

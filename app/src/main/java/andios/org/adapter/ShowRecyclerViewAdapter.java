@@ -14,6 +14,7 @@ import java.util.List;
 import andios.org.R;
 import andios.org.bean.ShowListBean;
 import andios.org.listener_interface.OnItemClickListener;
+import andios.org.tool.Constance;
 
 /**
  * 文件描述：

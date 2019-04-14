@@ -107,6 +107,7 @@ public class ShowDetailsActivity extends AppCompatActivity {
                 if (!isSaved){
                     item.setIcon(R.mipmap.has_saved);
                     isSaved=true;
+                    save(Constance.user_index+"",getIntents());
                     Toast.makeText(this, "收藏...", Toast.LENGTH_SHORT).show();
                 }else{
                     item.setIcon(R.mipmap.save);
@@ -148,11 +149,7 @@ public class ShowDetailsActivity extends AppCompatActivity {
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                try {
-                    content.setText(new String(s.getBytes("ISO-8859-1"),"GBK"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                content.setText(Constance.getChar(s));
             }
         }, new Response.ErrorListener() {
             @Override
@@ -161,6 +158,24 @@ public class ShowDetailsActivity extends AppCompatActivity {
             }
         });
         request.setTag("requestContent");
+        MyApplication.getHttpQueues().add(request);
+    }
+
+    private void save(String u_index,String lib_id){
+        StringRequest request=new StringRequest(Request.Method.GET, Constance.url+
+                "servlet/SetCollectionServlet?u_index="+u_index+"&lib_id="+lib_id,
+                new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Toast.makeText(ShowDetailsActivity.this, "收藏...", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        request.setTag("Save");
         MyApplication.getHttpQueues().add(request);
     }
     private String getIntents(){

@@ -95,21 +95,21 @@ public class LibDetailsActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_share:
+            case R.id.appointment_action_share:
                 Toast.makeText(this, "分享...", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.action_save:
-                if (!isSaved){
-                    item.setIcon(R.mipmap.has_saved);
-                    isSaved=true;
-                    Toast.makeText(this, "收藏...", Toast.LENGTH_SHORT).show();
-                }else{
-                    item.setIcon(R.mipmap.save);
-                    isSaved=false;
-                    Toast.makeText(this, "取消收藏...", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.action_appointment:
+//            case R.id.appointment_action_save:
+//                if (!isSaved){
+//                    item.setIcon(R.mipmap.has_saved);
+//                    isSaved=true;
+//                    Toast.makeText(this, "收藏...", Toast.LENGTH_SHORT).show();
+//                }else{
+//                    item.setIcon(R.mipmap.save);
+//                    isSaved=false;
+//                    Toast.makeText(this, "取消收藏...", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+            case R.id.appointment_action_appointment:
                 IntentTools.getInstance().intent(LibDetailsActivity.this,AppointmentActivity.class,null);
         }
         return super.onOptionsItemSelected(item);

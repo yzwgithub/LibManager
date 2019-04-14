@@ -95,10 +95,10 @@ public class LibFragment extends Fragment {
         three.setImage(R.drawable.three);
 
         bannerList=new ArrayList();
-        bannerList.add(R.drawable.haitang_one);
-        bannerList.add(R.drawable.haitang_two);
-        bannerList.add(R.drawable.haitang_three);
-        bannerList.add(R.drawable.haitang_four);
+        bannerList.add(R.drawable.rotation_chart_01);
+        bannerList.add(R.drawable.rotation_chart_02);
+        bannerList.add(R.drawable.rotation_chart_03);
+        bannerList.add(R.drawable.rotation_chart_04);
         banner.setData(bannerList);
         banner.bannerPlay(4000);
 
